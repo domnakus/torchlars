@@ -39,8 +39,8 @@ void ComputeAdaptiveLrOnDevice(
     double trust_coef,
     torch::Tensor out);
 
-#define CHECK_CONTIGUOUS(x) AT_ASSERTM(x.is_contiguous(), #x " must be contiguous")
-#define CHECK_CPU(x) AT_ASSERTM(!x.type().is_cuda(), #x " must be a CPU tensor")
+#define CHECK_CONTIGUOUS(x) TORCH_CHECK(x.is_contiguous(), #x " must be contiguous")
+#define CHECK_CPU(x) TORCH_CHECK(!x.is_cuda(), #x " must be a CPU tensor")
 
 torch::Tensor ComputeAdaptiveLr(
     torch::Tensor param_norm,

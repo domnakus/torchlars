@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=65.5.1", "wheel", "torch"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "torchlars"
+version = "0.1.0"
+description = "A LARS implementation in PyTorch"
+readme = "README.md"
+requires-python = ">=3.6"
+dependencies = ["torch"]
+authors = [{name = "Chunmyong Park"}]
+classifiers = [
+"Development Status :: 3 - Alpha",
+"Intended Audience :: Science/Research",
+"License :: OSI Approved :: Apache Software License",
+"Operating System :: POSIX :: Linux",
+"Programming Language :: Python :: 3",
+"Programming Language :: Python :: 3.6",
+"Programming Language :: Python :: 3.7",
+"Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+
+[tool.setuptools.packages.find]
+where = ["torchlars"]
+

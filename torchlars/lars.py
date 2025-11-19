@@ -41,9 +41,9 @@ class LARS(Optimizer):
 
     def __init__(self, optimizer, eps=1e-8, trust_coef=0.001):
         if eps < 0.0:
-            raise ValueError('invalid epsilon value: , %f' % eps)
+            raise ValueError('invalid epsilon value: %f' % eps)
         if trust_coef < 0.0:
-            raise ValueError("invalid trust coefficient: %f" % trust_coef)
+            raise ValueError('invalid trust coefficient: %f' % trust_coef)
 
         self.optim = optimizer
         self.eps = eps
@@ -77,8 +77,8 @@ class LARS(Optimizer):
     def load_state_dict(self, state_dict):
         self.optim.load_state_dict(state_dict)
 
-    def zero_grad(self):
-        self.optim.zero_grad()
+    def zero_grad(self, set_to_none: bool = True):
+        self.optim.zero_grad(set_to_none)
 
     def add_param_group(self, param_group):
         self.optim.add_param_group(param_group)

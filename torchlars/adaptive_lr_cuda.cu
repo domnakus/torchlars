@@ -32,7 +32,7 @@ __global__ void ComputeAdaptiveLrOnDeviceAfterTypeCheck(
   }
 }
 
-#define CHECK_CUDA(x) AT_ASSERTM(x.type().is_cuda(), #x " must be a CUDA tensor")
+#define CHECK_CUDA(x) TORCH_CHECK(x.is_cuda(), #x " must be a CUDA tensor")
 
 void ComputeAdaptiveLrOnDevice(
     torch::Tensor param_norm,
