@@ -4,8 +4,8 @@
 
 template <typename scalar_t>
 __global__ void ComputeAdaptiveLrOnDeviceAfterTypeCheck(
-    const scalar_t &param_norm,
-    const scalar_t &grad_norm,
+    const scalar_t param_norm,
+    const scalar_t grad_norm,
     const scalar_t weight_decay,
     const scalar_t eps,
     const scalar_t trust_coef,
@@ -46,15 +46,15 @@ void ComputeAdaptiveLrOnDevice(
   CHECK_CUDA(out);
 
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-      param_norm.type(),
+      param_norm.scalar_type(),
       "compute_adaptive_lr_cuda",
       ([&] {
          ComputeAdaptiveLrOnDeviceAfterTypeCheck<scalar_t><<<1, 1>>>(
-             *param_norm.data<scalar_t>(),
-             *grad_norm.data<scalar_t>(),
+             param_norm.item<scalar_t>(),
+             grad_norm.item<scalar_t>(),
              weight_decay,
              eps,
              trust_coef,
-             out.data<scalar_t>());
+             out.data_ptr<scalar_t>());
        }));
 }

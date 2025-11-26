@@ -2,8 +2,8 @@
 
 template <typename scalar_t>
 void ComputeAdaptiveLrAfterTypeCheck(
-    const scalar_t &param_norm,
-    const scalar_t &grad_norm,
+    const scalar_t param_norm,
+    const scalar_t grad_norm,
     const scalar_t weight_decay,
     const scalar_t eps,
     const scalar_t trust_coef,
@@ -53,7 +53,7 @@ torch::Tensor ComputeAdaptiveLr(
   CHECK_CONTIGUOUS(grad_norm);
   CHECK_CONTIGUOUS(out);
 
-  if (param_norm.type().is_cuda() && grad_norm.type().is_cuda()) {
+  if (param_norm.is_cuda() && grad_norm.is_cuda()) {
     ComputeAdaptiveLrOnDevice(
         param_norm,
         grad_norm,
@@ -67,16 +67,16 @@ torch::Tensor ComputeAdaptiveLr(
     CHECK_CPU(out);
 
     AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-        param_norm.type(),
+        param_norm.scalar_type(),
         "compute_adaptive_lr_cpu",
         ([&] {
            ComputeAdaptiveLrAfterTypeCheck<scalar_t>(
-               *param_norm.data<scalar_t>(),
-               *grad_norm.data<scalar_t>(),
+               param_norm.item<scalar_t>(),
+               grad_norm.item<scalar_t>(),
                weight_decay,
                eps,
                trust_coef,
-               out.data<scalar_t>());
+               out.data_ptr<scalar_t>());
          }));
   }
 
